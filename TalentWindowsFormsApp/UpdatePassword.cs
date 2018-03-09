@@ -37,7 +37,7 @@ namespace TalentWindowsFormsApp
                 string newPassword = NewPasswordTxt.Text;
                 string checkNewPassword = CheckNewPasswordTxt.Text;
                 string msg = TalentClassLibrary.Talent.GetInstance().UpdatePasswordByaccount(Account, oldPassword, newPassword, checkNewPassword);
-                if (msg != "修改成功")
+                if (!msg.Equals("修改成功"))
                 {
                     MessageBox.Show(msg, "錯誤訊息");
                 }

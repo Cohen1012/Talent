@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -92,7 +92,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainer1.Size = new System.Drawing.Size(807, 616);
-            this.splitContainer1.SplitterDistance = 320;
+            this.splitContainer1.SplitterDistance = 288;
             this.splitContainer1.TabIndex = 0;
             // 
             // splitContainer2
@@ -137,8 +137,8 @@
             this.splitContainer2.Panel2.Controls.Add(this.label2);
             this.splitContainer2.Panel2.Controls.Add(this.KeyWordTxt);
             this.splitContainer2.Panel2.Controls.Add(this.label1);
-            this.splitContainer2.Size = new System.Drawing.Size(807, 320);
-            this.splitContainer2.SplitterDistance = 57;
+            this.splitContainer2.Size = new System.Drawing.Size(807, 288);
+            this.splitContainer2.SplitterDistance = 51;
             this.splitContainer2.TabIndex = 0;
             // 
             // panel1
@@ -151,11 +151,12 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(807, 57);
+            this.panel1.Size = new System.Drawing.Size(807, 51);
             this.panel1.TabIndex = 31;
             // 
             // ImportCombo
             // 
+            this.ImportCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ImportCombo.FormattingEnabled = true;
             this.ImportCombo.Items.AddRange(new object[] {
             "新版",
@@ -167,6 +168,7 @@
             // 
             // ExportCombo
             // 
+            this.ExportCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ExportCombo.FormattingEnabled = true;
             this.ExportCombo.Items.AddRange(new object[] {
             "聯繫狀況",
@@ -304,6 +306,7 @@
             // 
             // InterviewResultCombo
             // 
+            this.InterviewResultCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.InterviewResultCombo.FormattingEnabled = true;
             this.InterviewResultCombo.Items.AddRange(new object[] {
             "不限",
@@ -317,6 +320,7 @@
             // 
             // IsInterviewCombo
             // 
+            this.IsInterviewCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.IsInterviewCombo.FormattingEnabled = true;
             this.IsInterviewCombo.Items.AddRange(new object[] {
             "不限",
@@ -340,6 +344,7 @@
             // 
             // ContactStatusCombo
             // 
+            this.ContactStatusCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ContactStatusCombo.FormattingEnabled = true;
             this.ContactStatusCombo.Items.AddRange(new object[] {
             "不限",
@@ -352,6 +357,7 @@
             // 
             // CooperationCombo
             // 
+            this.CooperationCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CooperationCombo.FormattingEnabled = true;
             this.CooperationCombo.Items.AddRange(new object[] {
             "不限",
@@ -485,20 +491,20 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(807, 292);
+            this.dataGridView1.Size = new System.Drawing.Size(807, 324);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 

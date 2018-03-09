@@ -37,7 +37,7 @@ namespace TalentWindowsFormsApp
             string skills = SkillsTxt.Text;
             string place = PlaceTxt.Text;
             string cooperationMode = CooperationCombo.SelectedItem.ToString();
-            string contactStatus = ContactStatusCombo.SelectedText.ToString();
+            string contactStatus = ContactStatusCombo.SelectedItem.ToString();
             string startEditDate = StartEditDateTxt.Text;
             string endEditDate = EndEditDateTxt.Text;
             string isInterview = IsInterviewCombo.SelectedItem.ToString();
@@ -199,22 +199,22 @@ namespace TalentWindowsFormsApp
             calendarForm.ShowDialog();
             if (calendarForm.DialogResult == DialogResult.OK)
             {
-                if (btn.Name == "CalendarBtn")
+                if (btn.Name.Equals("CalendarBtn"))
                 {
                     StartEditDateTxt.Text = calendarForm.CalenderValue;
                 }
 
-                if (btn.Name == "CalendarBtn1")
+                if (btn.Name.Equals("CalendarBtn1"))
                 {
                     EndEditDateTxt.Text = calendarForm.CalenderValue;
                 }
 
-                if (btn.Name == "CalendarBtn2")
+                if (btn.Name.Equals("CalendarBtn2"))
                 {
                     StartInterviewDateTxt.Text = calendarForm.CalenderValue;
                 }
 
-                if (btn.Name == "CalendarBtn3")
+                if (btn.Name.Equals("CalendarBtn3"))
                 {
                     EndInterviewDateTxt.Text = calendarForm.CalenderValue;
                 }
@@ -231,7 +231,7 @@ namespace TalentWindowsFormsApp
             }
 
             ////修改
-            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "修改")
+            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Equals("修改"))
             {
                 ContactStatus contactStatus = new ContactStatus(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString())
                 {
@@ -243,13 +243,13 @@ namespace TalentWindowsFormsApp
             }
 
             ////刪除
-            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "刪除")
+            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Equals("刪除"))
             {
                 DialogResult result = MessageBox.Show("是否刪除選取的資料", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
                     string msg = Talent.GetInstance().DelTalentById(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
-                    if (msg == "刪除成功")
+                    if (msg.Equals("刪除成功"))
                     {
                         MessageBox.Show(msg, "訊息");
                         dataGridView1.Rows.RemoveAt(e.RowIndex);
@@ -291,8 +291,9 @@ namespace TalentWindowsFormsApp
             }
 
             var idList = (from row in dt.AsEnumerable()
-                          where !string.IsNullOrEmpty(row.Field<string>("Contact_Id"))
-                          select row.Field<string>("Contact_Id")).ToList();
+                          where !string.IsNullOrEmpty(row.Field<int?>("Contact_Id").ToString())
+                          select row.Field<int?>("Contact_Id").ToString()).ToList();
+
             switch (exportMode)
             {
                 case "聯繫狀況":
@@ -346,7 +347,7 @@ namespace TalentWindowsFormsApp
                         contactSituationList = ExcelHelper.GetInstance().ImportOldTalent(ofd.FileName);
                         break;
                     default:
-                        MessageBox.Show("沒有匯出任何資料","錯誤訊息");
+                        MessageBox.Show("沒有匯入任何資料","錯誤訊息");
                         break;
                 }
 
@@ -356,6 +357,8 @@ namespace TalentWindowsFormsApp
                     return;
                 }
 
+                DataTable dt = TalentClassLibrary.TalentSearch.GetInstance().SelectTop15();
+                ShowData(ref dt);
                 MessageBox.Show(TalentClassLibrary.TalentSearch.GetInstance().InsertContactSituationInfoData(contactSituationList));
             }
         }

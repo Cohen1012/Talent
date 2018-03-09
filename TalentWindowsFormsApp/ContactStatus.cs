@@ -306,13 +306,12 @@ namespace TalentWindowsFormsApp
         /// <param name="e"></param>
         private void ContactStatus_Shown(object sender, EventArgs e)
         {
+            ImportLink.Visible = false;
             if (!string.IsNullOrEmpty(Contact_Id))
             {
                 ShowData();
                 PaitDataGridView();
             }
-
-
         }
 
         private void ContactStatus_Load(object sender, EventArgs e)
@@ -379,7 +378,7 @@ namespace TalentWindowsFormsApp
                 return;
             }
 
-            if (this.dataGridView1.Columns[e.ColumnIndex].HeaderText == "日期")
+            if (this.dataGridView1.Columns[e.ColumnIndex].HeaderText.Equals("日期"))
             {
                 Rectangle r = this.dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 dateTimePicker1.Location = new Point(r.X, r.Y);
@@ -392,7 +391,7 @@ namespace TalentWindowsFormsApp
                 this.dateTimePicker1.BringToFront();
             }
 
-            if (this.dataGridView1.Columns[e.ColumnIndex].HeaderText == "聯繫狀況")
+            if (this.dataGridView1.Columns[e.ColumnIndex].HeaderText.Equals("聯繫狀況"))
             {
                 Rectangle r = this.dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 ContactStausCombo.Location = new Point(r.X, r.Y);
@@ -409,7 +408,7 @@ namespace TalentWindowsFormsApp
                 this.ContactStausCombo.BringToFront();
             }
 
-            if (this.dataGridView1.Columns[e.ColumnIndex].HeaderText == "備註")
+            if (this.dataGridView1.Columns[e.ColumnIndex].HeaderText.Equals("備註"))
             {
                 Rectangle r = this.dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 remarkTxt.Location = new Point(r.X, r.Y);
@@ -495,14 +494,14 @@ namespace TalentWindowsFormsApp
             }
 
             ////讓該行可以編輯
-            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "修正")
+            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Equals("修正"))
             {
                 dataGridView1.Rows[e.RowIndex].ReadOnly = false;
                 dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
             }
 
             ////刪除該列
-            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "刪除")
+            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Equals("刪除"))
             {
                 DialogResult result = MessageBox.Show("是否刪除選取的資料", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
@@ -554,12 +553,6 @@ namespace TalentWindowsFormsApp
                 return;
             }
             string msg = string.Empty;
-            msg = TalentValid.GetInstance().ValidCode(CodeTxt);
-            if (msg != string.Empty)
-            {
-                MessageBox.Show(msg, "錯誤訊息");
-                return;
-            }
 
             ////UI聯繫基本資料
             ContactInfoUI.Clear();
@@ -569,8 +562,8 @@ namespace TalentWindowsFormsApp
             string cooperationMode = CooperationCombo.SelectedItem.ToString();
             string place = PlaceTxt.Text.Trim();
             string skill = SkillTxt.Text.Trim();
-            string sex = (SexCombo.SelectedItem.ToString() == "--請選擇--") ? string.Empty : SexCombo.SelectedItem.ToString();
-            string status = (StatusCombo.SelectedItem.ToString() == "--請選擇--") ? string.Empty : StatusCombo.SelectedItem.ToString();
+            string sex = (SexCombo.SelectedItem.ToString().Equals("--請選擇--")) ? string.Empty : SexCombo.SelectedItem.ToString();
+            string status = (StatusCombo.SelectedItem.ToString().Equals("--請選擇--")) ? string.Empty : StatusCombo.SelectedItem.ToString();
             string year = YearTxt.Text;
             ContactInfoUI.Rows.Add(name, sex, mail, phone, cooperationMode, status, place, skill, year);
             ////代碼資料
@@ -583,6 +576,13 @@ namespace TalentWindowsFormsApp
                 {
                     codeList.Rows.Add(code.Text, Contact_Id);
                 }
+            }
+
+            msg = TalentValid.GetInstance().ValidCode(CodeTxt);
+            if (msg != string.Empty)
+            {
+                MessageBox.Show(msg, "錯誤訊息");
+                return;
             }
 
             msg = TalentValid.GetInstance().ValidContactSituationInfoData(name, codeList, sex, mail, phone, place, skill, cooperationMode, status);
@@ -602,7 +602,7 @@ namespace TalentWindowsFormsApp
             if (ContactInfoDB.Rows.Count == 0)
             {
                 msg = Talent.GetInstance().InsertContactSituationInfoData(ContactInfoUI);
-                if (msg == "新增失敗")
+                if (msg.Equals("新增失敗"))
                 {
                     MessageBox.Show(msg, "錯誤訊息");
                     return;
@@ -610,14 +610,13 @@ namespace TalentWindowsFormsApp
                 else
                 {
                     ContactInfoDB.Clear();
-                    //ContactStatusDB = ContactInfoUI.Copy();
                     Contact_Id = msg;
                 }
             }
             else
             {
                 msg = Talent.GetInstance().UpdateContactSituationInfoData(ContactInfoUI, Contact_Id);
-                if (msg == "修改失敗")
+                if (msg.Equals("修改失敗"))
                 {
                     MessageBox.Show(msg, "錯誤訊息");
                     return;
@@ -625,13 +624,12 @@ namespace TalentWindowsFormsApp
                 else
                 {
                     ContactInfoDB.Clear();
-                    //ContactInfoDB = ContactInfoUI.Copy();
                 }
             }
 
             ////儲存代碼資料
             msg = Talent.GetInstance().SaveCode(codeList, Contact_Id);
-            if (msg != "儲存成功")
+            if (!msg.Equals("儲存成功"))
             {
                 MessageBox.Show(msg, "錯誤訊息");
                 return;
@@ -641,12 +639,11 @@ namespace TalentWindowsFormsApp
                 CodeDB.Clear();
                 CodeTxt.Clear();
                 DelCode.Clear();
-                //CodeDB = codeList.Copy();
             }
 
             ////儲存聯繫狀況資料
             msg = Talent.GetInstance().SaveContactSituation(ContactStatusUI, Contact_Id);
-            if (msg != "儲存成功")
+            if (!msg.Equals("儲存成功"))
             {
                 MessageBox.Show(msg, "錯誤訊息");
                 return;
@@ -655,39 +652,11 @@ namespace TalentWindowsFormsApp
             {
                 ContactStatusDB.Clear();
                 ContactStatusUI.Clear();
-                //ContactStatusDB = ContactStatusUI.Copy();
             }
 
             MessageBox.Show("儲存成功", "訊息");
             ShowData();
             PaitDataGridView();
-        }
-
-        private void tabControl1_MouseDown(object sender, MouseEventArgs e)
-        {
-            ////if (Contact_Id == string.Empty)
-            ////{
-            ////    MessageBox.Show("沒有聯繫資料!!!", "警告");
-            ////    return;
-            ////}
-
-            ////int lastIndex = this.tabControl1.TabCount - 1;
-            ////if (this.tabControl1.GetTabRect(lastIndex).Contains(e.Location))
-            ////{
-            ////    TabPage tabPage = new TabPage
-            ////    {
-            ////        Text = "面談資料" + (tabControl1.TabCount - 1),
-            ////        Name = "Interview" + (tabControl1.TabCount - 1),
-            ////        AutoScroll = true,
-            ////    };
-            ////    InterviewDataControl newInterview = new InterviewDataControl();
-            ////    newInterview.BtnClick += DelInterview_BtnClick;
-            ////    newInterview.ConfirmBtnClick += UpdateTime_ConfirmBtnClick;
-            ////    newInterview.SetInfo(NameTxt.Text, SexCombo.SelectedItem.ToString(), MailTxt.Text, PhoneTxt.Text, Contact_Id);
-            ////    tabPage.Controls.Add(newInterview);
-            ////    this.tabControl1.TabPages.Insert(lastIndex, tabPage);
-            ////    this.tabControl1.SelectedIndex = lastIndex;
-            ////}
         }
 
         /// <summary>
@@ -697,19 +666,11 @@ namespace TalentWindowsFormsApp
         /// <param name="e"></param>
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            //if(tabControl1.SelectedIndex == tabControl1.TabCount - 1)
-            //{
-            //    e.Cancel = true;
-            //    return;
-            //}
-
             if (this.Page != 0)
             {
                 ////面談資料頁面間轉換要檢查是否有存檔
                 InterviewDataControl interviewDataControl = new InterviewDataControl();
-                TabPage tabPage = tabControl1.TabPages["Interview" + Page];
-
-                
+                TabPage tabPage = tabControl1.TabPages["Interview" + Page];               
 
                 foreach (Control c in tabPage.Controls)
                 {
@@ -741,8 +702,8 @@ namespace TalentWindowsFormsApp
                 Cooperation_Mode = CooperationCombo.SelectedItem.ToString().Trim(),
                 Place = PlaceTxt.Text.Trim(),
                 Skill = SkillTxt.Text.Trim(),
-                Sex = (SexCombo.SelectedItem.ToString() == "--請選擇--") ? string.Empty : SexCombo.SelectedItem.ToString().Trim(),
-                Status = (StatusCombo.SelectedItem.ToString() == "--請選擇--") ? string.Empty : StatusCombo.SelectedItem.ToString().Trim(),
+                Sex = (SexCombo.SelectedItem.ToString().Equals("--請選擇--")) ? string.Empty : SexCombo.SelectedItem.ToString().Trim(),
+                Status = (StatusCombo.SelectedItem.ToString().Equals("--請選擇--")) ? string.Empty : StatusCombo.SelectedItem.ToString().Trim(),
                 Year = YearTxt.Text
             };
             ////DB聯繫基本資料
@@ -954,6 +915,18 @@ namespace TalentWindowsFormsApp
                         break;
                     }
                 }
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(tabControl1.SelectedIndex == 0)
+            {
+                ImportLink.Visible = false;
+            }
+            else
+            {
+                ImportLink.Visible = true;
             }
         }
     }

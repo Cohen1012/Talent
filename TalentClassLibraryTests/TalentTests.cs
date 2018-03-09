@@ -16,6 +16,7 @@ namespace TalentClassLibrary.Tests
         [TestMethod()]
         public void AlertUpdatePasswordTest()
         {
+            
             var input = "monkey60146@yahoo.com.tw";
             var expect = "寄送成功";
             var actual = Talent.GetInstance().AlertUpdatePassword(input);

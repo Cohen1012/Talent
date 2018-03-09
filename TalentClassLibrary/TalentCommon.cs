@@ -1,6 +1,7 @@
 ﻿using ShareClassLibrary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -210,8 +211,8 @@ namespace TalentClassLibrary
                 return "密碼重設失敗";
             }
 
-            string mailFrom = "williamlai@is-land.com.tw";
-            string mailPwd = "x9454jo6";
+            string mailFrom = ConfigurationManager.AppSettings["MailAccount"];
+            string mailPwd = ConfigurationManager.AppSettings["MailPassword"];
             string mailTo = account;
             string mailCc = string.Empty;
             string mailBcc = string.Empty;

@@ -14,26 +14,10 @@ namespace TalentWindowsFormsApp
     public partial class SignIn : Form
     {
         public string Msg { get; set; }
-        private float X;//當前窗體的寬度
-        private float Y;//當前窗體的高度
 
         public SignIn()
         {
             InitializeComponent();
-        }
-
-        private void SignIn_Load(object sender, EventArgs e)
-        {
-            X = this.Width;//獲取窗體的寬度
-            Y = this.Height;//獲取窗體的高度
-            //Talent.GetInstance().SetTag(this);//調用方法
-        }
-
-        private void SignIn_Resize(object sender, EventArgs e)
-        {
-            float newx = (this.Width) / X; //窗體寬度縮放比例
-            float newy = (this.Height) / Y;//窗體高度縮放比例
-            // Talent.GetInstance().SetControls(newx, newy, this);//隨窗體改變控制項大小
         }
 
         /// <summary>
@@ -52,7 +36,7 @@ namespace TalentWindowsFormsApp
                 return;
             }
 
-            if (Msg != "登入失敗" && Msg != "該帳號停用中")
+            if (!Msg.Equals("登入失敗") && !Msg.Equals("該帳號停用中"))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Hide();

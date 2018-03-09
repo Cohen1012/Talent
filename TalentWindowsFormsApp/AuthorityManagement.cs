@@ -32,7 +32,7 @@ namespace TalentWindowsFormsApp
         /// <param name="account"></param>
         private void Manage_Accounts(string account)
         {
-            if (account == "hr@is-land.com.tw")
+            if (account.Equals("hr@is-land.com.tw"))
             {
                 InsertAccountBtn.Visible = true;
                 dataGridView2.Visible = true;
@@ -49,7 +49,7 @@ namespace TalentWindowsFormsApp
                 dt.Columns.Add("Reset");
                 foreach (DataRow dr in dt.Rows)
                 {
-                    if (dr["States"].ToString() == "啟用")
+                    if (dr["States"].ToString().Equals("啟用"))
                     {
                         dr["Reset"] = "重設密碼";
                     }
@@ -106,7 +106,7 @@ namespace TalentWindowsFormsApp
 
         private void AuthorityManagement_Load(object sender, EventArgs e)
         {
-            DataTable dt = Talent.GetInstance().SelectMemberInfoByAccount(Account);            
+            DataTable dt = Talent.GetInstance().SelectMemberInfoByAccount(Account);
             if (!string.IsNullOrEmpty(Talent.GetInstance().ErrorMessage))
             {
                 MessageBox.Show(Talent.GetInstance().ErrorMessage);
@@ -159,7 +159,7 @@ namespace TalentWindowsFormsApp
             if (newAccount != null)
             {
                 string msg = Talent.GetInstance().InsertMember(newAccount);
-                if (msg != "新增成功")
+                if (!msg.Equals("新增成功"))
                 {
                     MessageBox.Show(msg, "錯誤訊息");
                 }
@@ -184,14 +184,14 @@ namespace TalentWindowsFormsApp
             }
 
             ////重設密碼
-            if (dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "重設密碼")
+            if (dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Equals("重設密碼"))
             {
                 for (int i = 0; i < dataGridView2.ColumnCount; i++)
                 {
                     if (dataGridView2.Rows[e.RowIndex].Cells[i].Value.ToString().Contains("@"))
                     {
                         string msg = TalentCommon.GetInstance().AlertUpdatePassword(dataGridView2.Rows[e.RowIndex].Cells[i].Value.ToString());
-                        if (msg != "寄送成功")
+                        if (!msg.Equals("寄送成功"))
                         {
                             MessageBox.Show(msg, "錯誤訊息");
                         }
@@ -204,7 +204,7 @@ namespace TalentWindowsFormsApp
                 }
             }
             ////刪除帳號
-            if (dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "刪除")
+            if (dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Equals("刪除"))
             {
                 DialogResult result = MessageBox.Show("即將刪除該帳號是否繼續?", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
@@ -214,7 +214,7 @@ namespace TalentWindowsFormsApp
                         if (dataGridView2.Rows[e.RowIndex].Cells[i].Value.ToString().Contains("@"))
                         {
                             string msg = Talent.GetInstance().DelMemberByAccount(dataGridView2.Rows[e.RowIndex].Cells[i].Value.ToString());
-                            if (msg != "刪除成功")
+                            if (!msg.Equals("刪除成功"))
                             {
                                 MessageBox.Show(msg, "錯誤訊息");
                             }
@@ -231,40 +231,47 @@ namespace TalentWindowsFormsApp
 
         private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            ////更改狀態
-            if (dataGridView2.Columns[e.ColumnIndex].Name.ToString() == "狀態")
+            if (e.RowIndex < 0)
             {
-                for (int i = 0; i < dataGridView2.ColumnCount; i++)
-                {
-                    if (dataGridView2.Rows[e.RowIndex].Cells[i].Value.ToString().Contains("@"))
-                    {
-                        string account = dataGridView2.Rows[e.RowIndex].Cells[i].Value.ToString();
-                        string states = dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                        string msg = Talent.GetInstance().UpdateMemberStatesByAccount(account, states);
-                        MessageBox.Show(msg, "訊息");
-                        this.Manage_Accounts(Account);
-                    }
-                }
+                return;
+            }
+
+            ////更改狀態
+            if (dataGridView2.Columns[e.ColumnIndex].Name.ToString().Equals("狀態"))
+            {
+                string account = dataGridView2.Rows[e.RowIndex].Cells["帳號"].Value.ToString();
+                string states = dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                string msg = Talent.GetInstance().UpdateMemberStatesByAccount(account, states);
+                MessageBox.Show(msg, "訊息");
+                this.Manage_Accounts(Account);
             }
         }
 
 
         private void dataGridView2_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            ComboBox combo = (ComboBox)e.Control;
-            if (combo != null)
-            {
-                ////Remove an existing event-handler, if present, to avoid 
-                ////adding multiple handlers when the editing control is reused.
-                combo.SelectedIndexChanged -= Combo_SelectedIndexChanged;
-                combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
-            }
+            //ComboBox combo = e.Control as ComboBox;
+            //if (combo != null)
+            //{
+            //    ////Remove an existing event-handler, if present, to avoid 
+            //    ////adding multiple handlers when the editing control is reused.
+            //    combo.SelectedIndexChanged -= Combo_SelectedIndexChanged;
+            //    combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
+            //}
         }
 
         private void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBox combo = sender as ComboBox;
-            MessageBox.Show(combo.SelectedItem.ToString());
+            //ComboBox combo = sender as ComboBox;
+            //MessageBox.Show(combo.SelectedItem.ToString());
+        }
+
+        private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dataGridView2.IsCurrentCellDirty)
+            {
+                dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
         }
     }
 }

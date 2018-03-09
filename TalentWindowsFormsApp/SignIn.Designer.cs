@@ -95,8 +95,6 @@
             this.Controls.Add(this.label1);
             this.Name = "SignIn";
             this.Text = "SignIn";
-            this.Load += new System.EventHandler(this.SignIn_Load);
-            this.Resize += new System.EventHandler(this.SignIn_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 

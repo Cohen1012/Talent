@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <style>
+        html,
+        body {
+            font-family: "Helvetica Neue", Helvetica, '微軟正黑體', '新細明體', Arial, sans-serif;
+            background: #DDD;
+        }
+
+        label {
+            margin: 0;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+        }
+
+        .picture {
+            float: left;
+            width: 25%;
+            height: 365px;
+        }
+
+        .picture img {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            top: calc(50% - 160px);
+            border: 1px solid #000;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            border-radius: 4px;
+            padding: 10px;
+            border: 1px solid #CCC;
+            color: #55606e;
+            font-size: 14px;
+        }
+
+        .headerWrapper {
+            
+        }
+
+        ul.panel {
+
+        }
+
+        ul.panel li {
+            border: 1px solid black;
+            padding: 10px 20px;
+        }
+
+        ul.panel li:not(:last-child) {
+            margin-right: 10px;
+        }
+
+        .personalWrapper {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .personalWrapper > div:not(:first-child) {
+            border-top: 1px solid #CCCCCC33;
+            padding-top: 15px;
+        }
+
+        .personalTitle {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .footerWrapper {
+            float: right;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        [class*="col-"] {
+            
+        }
+
+        .btn {
+            width: 100px;
+            height: 50px;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 18px;
+            border: 1px solid transparent;
+            outline: none;
+            color: #fff;
+            background-color: #239AD1;
+            cursor: pointer;
+            outline: none;
+            font-weight: 400;
+            box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 6px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+            transition: 0.2s ease-out;
+        }
+
+        .btn:active {
+            background-color: #1f88b9;
+            box-shadow: none;
+        }
+
+        .btn:focus {
+            outline:0!important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="headerWrapper">
+            <ul class="panel">
+                <li>
+                    人資資料
+                </li>
+                <li>
+                    專案經驗
+                </li>
+                <li>
+                    面談結果
+                </li>
+            </ul>
+        </div>
+        <div class="personalWrapper">
+            <h2 class="personalTitle">人事基本資料</h2>
+            <div class="basic-info">
+                <div class="row">
+                    <div class="picture col-md-3">
+                        <img />
+                    </div>
+                    <div class="data col-md-9">
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label>應徵職缺</label>
+                                <input type="text" value="" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>面談日期</label>
+                                <input type="text" value="" />
+                            </div>
+                            <div class="col-md-4 form-group">
+
+                            </div>
+
+
+                            <div class="col-md-4 form-group">
+                                <label>姓名</label>
+                                <input type="text" value="" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>性別</label>
+                                <select>
+                                    <option value="男">男</option>
+                                    <option value="男">女</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>生日</label>
+                                <input type="text" value="" />
+                            </div>
+
+
+                            <div class="col-md-4 form-group">
+                                <label>婚別</label>
+                                <select>
+                                    <option value="已婚">已婚</option>
+                                    <option value="未婚">未婚</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>e-mail</label>
+                                <input type="text" value="" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>手機</label>
+                                <input type="text" value="" />
+                            </div>
+
+
+                            <div class="col-md-12 form-group">
+                                <label>地址</label>
+                                <input type="text" value="" />
+                            </div>
+
+
+                            <div class="col-md-4 form-group">
+                                <label>緊急聯絡人</label>
+                                <input type="text" value="" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>關係</label>
+                                <input type="text" value="" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>手機</label>
+                                <input type="text" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="advanced-info">
+                <div class="row">
+                    <div class="col-md-1">
+                        學歷
+                    </div>
+                    <div class="col-md-11">
+                        <div class="form-title">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    學校名稱
+                                </div>
+                                <div class="col-md-2">
+                                    科系
+                                </div>
+                                <div class="col-md-2">
+                                    起迄年月
+                                </div>
+                                <div class="col-md-2">
+                                    畢/肄業
+                                </div>
+                                <div class="col-md-3">
+                                    備註
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <select>
+                                        <option value="畢業">畢業</option>
+                                        <option value="肄業">肄業</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        經歷
+                    </div>
+                    <div class="col-md-11">
+                        <div class="form-title">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    機構名稱
+                                </div>
+                                <div class="col-md-2">
+                                    職稱
+                                </div>
+                                <div class="col-md-2">
+                                    起迄年月
+                                </div>
+                                <div class="col-md-2">
+                                    到職薪資
+                                </div>
+                                <div class="col-md-2">
+                                    離職薪資
+                                </div>
+                                <div class="col-md-2">
+                                    離職原因
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        兵役
+                    </div>
+                    <div class="col-md-11">
+                        <div class="form-title">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    服役期間
+                                </div>
+                                <div class="col-md-9">
+                                    免疫說明
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        語言能力
+                    </div>
+                    <div class="col-md-11">
+                        <div class="form-title">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    語言
+                                </div>
+                                <div class="col-md-2">
+                                    聽
+                                </div>
+                                <div class="col-md-2">
+                                    說
+                                </div>
+                                <div class="col-md-2">
+                                    讀
+                                </div>
+                                <div class="col-md-2">
+                                    寫
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-2">
+                                    <select>
+                                        <option value="順暢">順暢</option>
+                                        <option value="普通">普通</option>
+                                        <option value="不順">略懂</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select>
+                                        <option value="順暢">順暢</option>
+                                        <option value="普通">普通</option>
+                                        <option value="不順">略懂</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select>
+                                        <option value="順暢">順暢</option>
+                                        <option value="普通">普通</option>
+                                        <option value="不順">略懂</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select>
+                                        <option value="順暢">順暢</option>
+                                        <option value="普通">普通</option>
+                                        <option value="不順">略懂</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        專長
+                    </div>
+                    <div class="col-md-11">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    程式語言
+                                </div>
+                                <div class="col-md-10">
+                                    <label><input type="checkbox" value="C/C++" /> C/C++</label>
+                                    <label><input type="checkbox" value="Java" /> Java</label>
+                                    <label><input type="checkbox" value="C#" /> C#</label>
+                                    <label><input type="checkbox" value="VB" /> VB</label>
+                                    <label><input type="checkbox" value="Scala" /> Scala</label>
+                                    <label><input type="checkbox" value="R" /> R</label>
+                                    <label><input type="checkbox" value="Python" /> Python</label>
+                                   
+                                </div>
+
+                                <div class="col-md-2">
+                                    開發工具
+                                </div>
+                                <div class="col-md-10">
+                                    <label><input type="checkbox" value="Visual Studio" /> Visual Studio</label>
+                                    <label><input type="checkbox" value="Eclipse" /> Eclipse</label>
+                                    <label><input type="checkbox" value="Xcode" /> Xcode</label>
+                                   
+                                </div>
+
+                                <div class="col-md-2">
+                                    Devops
+                                </div>
+                                <div class="col-md-10">
+                                    <label><input type="checkbox" value="Docker" /> Docker</label>
+                                    <label><input type="checkbox" value="Git" /> Git</label>
+                                    <label><input type="checkbox" value="Vagrant" /> Vagrant</label>
+                                    <label><input type="checkbox" value="Puppet" /> Puppet</label>
+                                    <label><input type="checkbox" value="Puppet" /> TFS</label>
+                                   
+                                </div>
+
+                                <div class="col-md-2">
+                                    作業系統
+                                </div>
+                                <div class="col-md-10">
+                                    <label><input type="checkbox" value="Windows" /> Windows</label>
+                                    <label><input type="checkbox" value="Linux" /> Linux</label>
+                                    <label><input type="checkbox" value="Unix" /> Unix</label>
+                                    <label><input type="checkbox" value="Android" /> Android</label>
+                                    <label><input type="checkbox" value="IOS" /> IOS</label>
+                                    
+                                </div>
+
+                                <div class="col-md-2">
+                                    大數據
+                                </div>
+                                <div class="col-md-10">
+                                    <label><input type="checkbox" value="Hadoop" /> Hadoop</label>
+                                    <label><input type="checkbox" value="Spark" /> Spark</label>
+                                    <label><input type="checkbox" value="Cloudera" /> Cloudera</label>
+                                    
+                                </div>
+
+                                <div class="col-md-2">
+                                    資料庫
+                                </div>
+                                <div class="col-md-10">
+                                    <label><input type="checkbox" value="Oracle" /> Oracle</label>
+                                    <label><input type="checkbox" value="My SQL" /> My SQL</label>
+                                    <label><input type="checkbox" value="Ms SQL" /> Ms SQL</label>
+                                    <label><input type="checkbox" value="Ms SQL" /> Hbase</label>
+                                   
+                                </div>
+
+                                <div class="col-md-2">
+                                    專業認證
+                                </div>
+                                <div class="col-md-10">
+                                    <label><input type="checkbox" value="Oracle" /> SCJP</label>
+                                    <label><input type="checkbox" value="My SQL" /> SCWCD</label>
+                                    <label><input type="checkbox" value="Ms SQL" /> MCAD</label>
+                                    <label><input type="checkbox" value="Ms SQL" /> MCTS</label>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-info">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label>最近三年內，是否有計畫繼續就學或出國深造?</label>
+                        <input type="text" value="" />
+                    </div>
+
+
+                    <div class="col-md-4 form-group">
+                        <label>有無親友在本公司服務?</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>姓名</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>電話</label>
+                        <input type="text" value="" />
+                    </div>
+
+
+                    <div class="col-md-4 form-group">
+                        <label>在工作中您最在乎什麼?</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>希望待遇</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>通知後多久可報到?</label>
+                        <input type="text" value="" />
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <label>優點</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>缺點</label>
+                        <input type="text" value="" />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label>嗜好</label>
+                        <input type="text" value="" />
+                    </div>
+
+
+                    <div class="col-md-12 form-group">
+                        <label>什麼原因吸引您來亦思應徵此工作? 您對亦思的第一印象是什麼?</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label>請描述您對未來的目標、希望。</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label>您心目中的理想主管是什麼樣的人?</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label>您希望亦思給與您什麼承諾?(任何方面)</label>
+                        <input type="text" value="" />
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label>覺得自己的哪個特質最強烈? 現在您有三十秒的自我推薦時間，您會透過什麼方式讓我們對您印象深刻?</label>
+                        <input type="text" value="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footerWrapper">
+            <input type="button" class="btn" value="確定" />
+            <input type="button" class="btn" value="取消" />
+            <input type="button" class="btn" value="刪除" />
+        </div>
+    </div>
+</body>
+
+</html>

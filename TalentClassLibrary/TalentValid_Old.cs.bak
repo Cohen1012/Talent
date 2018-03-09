@@ -14,7 +14,7 @@ namespace TalentClassLibrary
     /// <summary>
     /// 驗證資料類別
     /// </summary>
-    public partial class TalentValid
+    public class TalentValid
     {
         private static TalentValid talentValid = new TalentValid();
 
@@ -351,7 +351,53 @@ namespace TalentClassLibrary
 
             return msg;
         }
-        
+
+        /// <summary>
+        /// 驗證是否為新版Excel格式
+        /// </summary>
+        /// <param name="dataColumn"></param>
+        /// <returns></returns>
+        public bool ValidIsNewTalentFormat(DataColumnCollection dataColumn)
+        {
+            Workbook workbook = new Workbook();
+            workbook.LoadFromFile(@".\Template\NewTalentTemplate.xlsx");
+            Worksheet sheet = workbook.Worksheets[0];
+            DataTable dt = sheet.ExportDataTable();
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (!dataTable.Columns[i].ToString().Equals(dataColumn[i].ToString()))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 驗證是否為舊版Excel格式
+        /// </summary>
+        /// <param name="dataColumn"></param>
+        /// <returns></returns>
+        public bool ValidIsOldTalentFormat(DataColumnCollection dataColumn)
+        {
+            Workbook workbook = new Workbook();
+            workbook.LoadFromFile(@".\Template\OldTalentTemplate.xlsx");
+            Worksheet sheet = workbook.Worksheets[0];
+            DataTable dt = sheet.ExportDataTable();
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (!dataTable.Columns[i].ToString().Equals(dataColumn[i].ToString()))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// 驗證Excel格式為舊版或新版
         /// </summary>

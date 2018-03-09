@@ -11,9 +11,6 @@ namespace TalentClassLibrary
         private SqlConnection conn = null;
         private bool connOwner = false;
         private string connString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
-        //private string connString = @"Data Source=DESKTOP-RMABJLQ;Initial Catalog=TalentDatabase;Integrated Security=True";
-        //private string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + Path.GetDirectoryName(Application.ExecutablePath) + @"\TalentDatabase1.mdf;Integrated Security=True";
-        // private string connString = @"Server=tcp:talentdatabase.database.windows.net,1433;Initial Catalog=Talent;Persist Security Info=False;User ID=HR;Password=@@Is29127506;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
 
         private SqlTransaction transaction;

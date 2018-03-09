@@ -189,7 +189,7 @@ namespace TalentWindowsFormsApp
         private void SaveFilesBtn_Click(object sender, EventArgs e)
         {
             List<string> FilePathList = new List<string>();
-            DialogResult result = MessageBox.Show("資是否正確?", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult result = MessageBox.Show("資料是否正確?", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.No)
             {
                 return;
