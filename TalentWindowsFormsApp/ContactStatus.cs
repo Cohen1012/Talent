@@ -69,7 +69,7 @@ namespace TalentWindowsFormsApp
         public ContactStatus()
         {
             InitializeComponent();
-            CooperationCombo.SelectedItem = "皆可";
+            CooperationCombo.SelectedItem = "--請選擇--";
             StatusCombo.SelectedItem = "--請選擇--";
             SexCombo.SelectedItem = "--請選擇--";
             ExportCombo.SelectedItem = "聯繫狀況";
@@ -126,7 +126,7 @@ namespace TalentWindowsFormsApp
                 SexCombo.SelectedItem = dr["Sex"].ToString().Trim() == string.Empty ? "--請選擇--" : dr["Sex"].ToString().Trim();
                 MailTxt.Text = dr["Mail"].ToString().Trim();
                 PhoneTxt.Text = dr["CellPhone"].ToString().Trim();
-                CooperationCombo.SelectedItem = dr["Cooperation_Mode"].ToString().Trim();
+                CooperationCombo.SelectedItem = dr["Cooperation_Mode"].ToString().Trim() == string.Empty ? "--請選擇--" : dr["Cooperation_Mode"].ToString().Trim(); ;
                 StatusCombo.SelectedItem = dr["Status"].ToString().Trim() == string.Empty ? "--請選擇--" : dr["Status"].ToString().Trim();
                 PlaceTxt.Text = dr["Place"].ToString().Trim();
                 SkillTxt.Text = dr["Skill"].ToString().Trim();
@@ -521,6 +521,13 @@ namespace TalentWindowsFormsApp
             ContactStatusUI.Rows.InsertAt(ContactStatusUI.NewRow(), 0);
 
             dataGridView1.Rows[0].DefaultCellStyle.BackColor = Color.White;
+            for (int i = 0; i < dataGridView1.ColumnCount; i++)
+            {
+                if (dataGridView1.Rows[0].Cells[i].OwningColumn.HeaderText.Equals("日期"))
+                {
+                    dataGridView1.Rows[0].Cells[i].Value = DateTime.Now.ToString("yyyy/MM/dd");
+                }
+            }
         }
 
         /// <summary>
@@ -559,7 +566,7 @@ namespace TalentWindowsFormsApp
             string name = NameTxt.Text.Trim();
             string mail = MailTxt.Text.Trim();
             string phone = PhoneTxt.Text.Trim();
-            string cooperationMode = CooperationCombo.SelectedItem.ToString();
+            string cooperationMode = CooperationCombo.SelectedItem.ToString().Equals("--請選擇--") ? string.Empty : CooperationCombo.SelectedItem.ToString();
             string place = PlaceTxt.Text.Trim();
             string skill = SkillTxt.Text.Trim();
             string sex = (SexCombo.SelectedItem.ToString().Equals("--請選擇--")) ? string.Empty : SexCombo.SelectedItem.ToString();
@@ -699,7 +706,7 @@ namespace TalentWindowsFormsApp
                 Name = NameTxt.Text.Trim(),
                 Mail = MailTxt.Text.Trim(),
                 CellPhone = PhoneTxt.Text.Trim(),
-                Cooperation_Mode = CooperationCombo.SelectedItem.ToString().Trim(),
+                Cooperation_Mode = CooperationCombo.SelectedItem.ToString().Trim().Equals("--請選擇--") ? string.Empty : CooperationCombo.SelectedItem.ToString().Trim(),
                 Place = PlaceTxt.Text.Trim(),
                 Skill = SkillTxt.Text.Trim(),
                 Sex = (SexCombo.SelectedItem.ToString().Equals("--請選擇--")) ? string.Empty : SexCombo.SelectedItem.ToString().Trim(),
@@ -769,7 +776,7 @@ namespace TalentWindowsFormsApp
                 NameTxt.Text = string.Empty;
                 MailTxt.Text = string.Empty;
                 PhoneTxt.Text = string.Empty;
-                CooperationCombo.SelectedItem = "皆可";
+                CooperationCombo.SelectedItem = "--請選擇--";
                 PlaceTxt.Text = string.Empty;
                 SkillTxt.Text = string.Empty;
                 SexCombo.SelectedItem = "--請選擇--";

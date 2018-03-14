@@ -30,5 +30,17 @@ namespace TalentClassLibrary
             string todayTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             File.AppendAllText(@".\ErrorLog\" + today + ".txt", todayTime + "：\r\n" + evenStr + "\r\n" + ex + "\r\n\r\n");
         }
+
+        private static void ExecuteUsingTime(string msg)
+        {
+            if (!Directory.Exists(@".\ErrorLog"))
+            {
+                Directory.CreateDirectory(@".\ErrorLog");
+            }
+
+            string today = DateTime.Now.ToString("yyyy-MM-dd");
+            string todayTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff");
+            File.AppendAllText(@".\ErrorLog\" + today + ".txt", todayTime + "： " + msg + "\r\n\r\n");
+        } 
     }
 }

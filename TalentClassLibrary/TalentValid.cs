@@ -103,7 +103,8 @@ namespace TalentClassLibrary
         public string ValidCooperationMode(string cooperationMode)
         {
             string msg = string.Empty;
-            if ((cooperationMode != "全職" && cooperationMode != "合約" && cooperationMode != "皆可") || string.IsNullOrEmpty(cooperationMode))
+            
+            if ((cooperationMode != "全職" && cooperationMode != "合約" && cooperationMode != "皆可"))
             {
                 msg = "合作狀態須為\"全職\"or\"合約\"or\"皆可\"";
             }

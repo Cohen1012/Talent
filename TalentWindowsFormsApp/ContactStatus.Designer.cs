@@ -305,6 +305,7 @@
             this.CooperationCombo.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CooperationCombo.FormattingEnabled = true;
             this.CooperationCombo.Items.AddRange(new object[] {
+            "--請選擇--",
             "全職",
             "合約",
             "皆可"});

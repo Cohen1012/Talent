@@ -306,7 +306,7 @@ namespace TalentClassLibrary
         {
             ErrorMessage = string.Empty;
             DataTable dt = new DataTable();
-            string select = @"select Contact_Id,Name,Code_Id,CONVERT(varchar(100), Contact_Date, 111) Contact_Date,Contact_Status,Remarks,CONVERT(varchar(100), Interview_Date, 111) Interview_Date,CONVERT(varchar(100), UpdateTime, 120) UpdateTime from FilterTable where";
+            string select = @"select Contact_Id,Name,Code_Id,CONVERT(varchar(100), Contact_Date, 111) Contact_Date,Contact_Status,Remarks,CONVERT(varchar(100), Interview_Date, 111) Interview_Date,CONVERT(varchar(100), UpdateTime, 120) UpdateTime from FilterTable where 1=1 ";
             try
             {
                 if (Valid.GetInstance().ValidDateRange(startEditDate, endEditDate) != string.Empty)
@@ -422,30 +422,34 @@ namespace TalentClassLibrary
         private SqlDataAdapter CombinationWhereByInterviewFilter(string isInterview, string interviewResult, string startInterviewDate, string endInterviewDate, SqlDataAdapter da)
         {
             ////是否已面談
-            if (isInterview == "已面談")
+            if (isInterview.Equals("已面談"))
             {
                 da.SelectCommand.CommandText += @" and Appointment is not null and Appointment !=''";
             }
-            else if (isInterview == "未面談")
+            else if (isInterview.Equals("未面談"))
             {
                 da.SelectCommand.CommandText += @" and Appointment is null or Appointment =''";
             }
 
             ////面談結果
-            if (interviewResult != "不限")
+            if (!interviewResult.Equals("不限"))
             {
                 da.SelectCommand.CommandText += @" and ISNULL(Appointment,'NA') = ISNULL(ISNULL(@interviewResult,Appointment),'NA')";
                 da.SelectCommand.Parameters.Add("@interviewResult", SqlDbType.NVarChar).Value = Common.GetInstance().ValueIsNullOrEmpty(interviewResult);
             }
 
             ////面談日期
-            if (!string.IsNullOrEmpty(startInterviewDate) || !string.IsNullOrEmpty(endInterviewDate))
+            if (!string.IsNullOrEmpty(startInterviewDate))
             {
-                da.SelectCommand.CommandText += @" and Interview_Date <= ISNULL(@endInterviewDate, Interview_Date) AND Interview_Date >= ISNULL(@startInterviewDate, Interview_Date)";
-                da.SelectCommand.Parameters.Add("@endInterviewDate", SqlDbType.DateTime).Value = Common.GetInstance().ValueIsNullOrEmpty(endInterviewDate);
+                da.SelectCommand.CommandText += @" AND Interview_Date >= ISNULL(@startInterviewDate, Interview_Date)";
                 da.SelectCommand.Parameters.Add("@startInterviewDate", SqlDbType.DateTime).Value = Common.GetInstance().ValueIsNullOrEmpty(startInterviewDate);
             }
 
+            if (!string.IsNullOrEmpty(endInterviewDate))
+            {
+                da.SelectCommand.CommandText += @" and Interview_Date <= ISNULL(@endInterviewDate, Interview_Date) ";
+                da.SelectCommand.Parameters.Add("@endInterviewDate", SqlDbType.DateTime).Value = Common.GetInstance().ValueIsNullOrEmpty(endInterviewDate);
+            }
             return da;
         }
 
@@ -462,53 +466,105 @@ namespace TalentClassLibrary
         /// <returns></returns>
         private SqlDataAdapter CombinationWhereByContactFilter(string places, string expertises, string cooperationMode, string states, string startEditDate, string endEditDate, SqlDataAdapter da)
         {
-            string[] place = places.Split(',');
-            string[] expertise = expertises.Split(',');
-            da.SelectCommand.CommandText += @" ISNULL(Status,'NA') = ISNULL(ISNULL(@status,Status),'NA') and
-                                                                            UpdateTime >= ISNULL(@startEditDate, UpdateTime) and
-                                                                            UpdateTime <= ISNULL(@endEditDate, UpdateTime) and
-                                                                            ISNULL(Cooperation_Mode,'NA') = ISNULL(ISNULL(@CooperationMode,Cooperation_Mode),'NA')";
-            da.SelectCommand.Parameters.Add("@CooperationMode", SqlDbType.NChar).Value = this.ValueIsAny(cooperationMode);
-            da.SelectCommand.Parameters.Add("@status", SqlDbType.NVarChar).Value = this.ValueIsAny(states);
-            da.SelectCommand.Parameters.Add("@startEditDate", SqlDbType.DateTime).Value = Common.GetInstance().ValueIsNullOrEmpty(startEditDate);
-            da.SelectCommand.Parameters.Add("@endEditDate", SqlDbType.DateTime).Value = Common.GetInstance().ValueIsNullOrEmpty(endEditDate);
-            ////如果合作模式為"全職"or"合約"，則值為"皆可"也要被查詢出來
-            if (cooperationMode.Equals("全職") || cooperationMode.Equals("合約"))
+            CombinationWhereConditionStates(states, da);
+            CombinationWhereConditionStartEditDate(startEditDate, da);
+            CombinationWhereConditionEndEditDate(endEditDate, da);
+            CombinationWhereConditionCooperationMode(cooperationMode, da);
+            CombinationWhereConditionPlaces(places, da);
+            CombinationWhereConditionExpertises(expertises, da);
+
+            return da;
+        }
+
+        #region CombinationWhereByContactFilter function
+        private SqlDataAdapter CombinationWhereConditionStates(string states, SqlDataAdapter da)
+        {
+            if (!DBNull.Value.Equals(this.ValueIsAny(states)))
             {
-                da.SelectCommand.CommandText += @" or ISNULL(Cooperation_Mode,'NA') = ISNULL(ISNULL(@CooperationMode1,Cooperation_Mode),'NA')";
-                da.SelectCommand.Parameters.Add("@CooperationMode1", SqlDbType.NChar).Value = Common.GetInstance().ValueIsNullOrEmpty("皆可");
+                da.SelectCommand.CommandText += @" and ISNULL(Status,'NA') = ISNULL(ISNULL(@status,Status),'NA') ";
+
+                da.SelectCommand.Parameters.Add("@status", SqlDbType.NVarChar).Value = this.ValueIsAny(states);
             }
-            ////多筆地點
-            for (int i = 0; i < place.Length; i++)
+            return da;
+        }
+
+        private SqlDataAdapter CombinationWhereConditionStartEditDate( string startEditDate, SqlDataAdapter da)
+        {
+            if (!DBNull.Value.Equals(Common.GetInstance().ValueIsNullOrEmpty(startEditDate)))
             {
-                if (i == 0)
+                da.SelectCommand.CommandText += @" and UpdateTime >= ISNULL(@startEditDate, UpdateTime) ";
+
+                da.SelectCommand.Parameters.Add("@startEditDate", SqlDbType.DateTime).Value = Common.GetInstance().ValueIsNullOrEmpty(startEditDate);
+            }
+            return da;
+        }
+
+        private SqlDataAdapter CombinationWhereConditionEndEditDate(string endEditDate, SqlDataAdapter da)
+        {
+            if (!DBNull.Value.Equals(Common.GetInstance().ValueIsNullOrEmpty(endEditDate)))
+            {
+                da.SelectCommand.CommandText += @" and UpdateTime <= ISNULL(@endEditDate, UpdateTime) ";
+
+                da.SelectCommand.Parameters.Add("@endEditDate", SqlDbType.DateTime).Value = Common.GetInstance().ValueIsNullOrEmpty(endEditDate);
+            }
+            return da;
+        }
+
+        private SqlDataAdapter CombinationWhereConditionCooperationMode(string cooperationMode, SqlDataAdapter da)
+        {
+            if (!DBNull.Value.Equals(this.ValueIsAny(cooperationMode)))
+            {
+                da.SelectCommand.CommandText += @" and ISNULL(Cooperation_Mode,'NA') = ISNULL(ISNULL(@CooperationMode,Cooperation_Mode),'NA') ";
+                da.SelectCommand.Parameters.Add("@CooperationMode", SqlDbType.NChar).Value = this.ValueIsAny(cooperationMode);
+
+                ////如果合作模式為"全職"or"合約"，則值為"皆可"也要被查詢出來
+                if (cooperationMode.Equals("全職") || cooperationMode.Equals("合約"))
                 {
-                    da.SelectCommand.CommandText += @" and ISNULL(Place,'NA') LIKE ISNULL(ISNULL(@place" + (i + 1) + ", Place),'NA')";
+                    da.SelectCommand.CommandText += @" or ISNULL(Cooperation_Mode,'NA') = ISNULL(ISNULL(@CooperationMode1,Cooperation_Mode),'NA')";
+                    da.SelectCommand.Parameters.Add("@CooperationMode1", SqlDbType.NChar).Value = Common.GetInstance().ValueIsNullOrEmpty("皆可");
+                }
+            }
+            return da;
+        }
+
+        private SqlDataAdapter CombinationWhereConditionPlaces(string places, SqlDataAdapter da)
+        {
+            if (!string.IsNullOrEmpty(places.Trim()))
+            {
+                string[] place = places.Split(',');
+
+                ////多筆地點
+                for (int i = 0; i < place.Length; i++)
+                {
+                    da.SelectCommand.CommandText += (i == 0) ? @" and " : @" or ";
+                    da.SelectCommand.CommandText += @"ISNULL(Place,'NA') LIKE ISNULL(ISNULL(@place" + (i + 1) + ", Place),'NA')";
                     da.SelectCommand.Parameters.Add("@place" + (i + 1), SqlDbType.NVarChar).Value = Common.GetInstance().ValueIsNullOrEmpty("%" + place[i] + "%");
                 }
-                else
-                {
-                    da.SelectCommand.CommandText += @" or ISNULL(Place,'NA') LIKE ISNULL(ISNULL(@place" + (i + 1) + ", Place),'NA')";
-                    da.SelectCommand.Parameters.Add("@place" + (i + 1), SqlDbType.NVarChar).Value = Common.GetInstance().ValueIsNullOrEmpty("%" + place[i] + "%");
-                }
             }
-            ////多筆技能
-            for (int i = 0; i < expertise.Length; i++)
+            return da;
+        }
+
+        private SqlDataAdapter CombinationWhereConditionExpertises(string expertises, SqlDataAdapter da)
+        {
+
+            if (!string.IsNullOrEmpty(expertises.Trim()))
             {
-                if (i == 0)
+                string[] expertise = expertises.Split(',');
+
+                ////多筆技能
+                for (int i = 0; i < expertise.Length; i++)
                 {
-                    da.SelectCommand.CommandText += @" and ISNULL(Skill,'NA') Like ISNULL(ISNULL(@skill" + (i + 1) + ", Skill),'NA')";
+
+                    da.SelectCommand.CommandText += (i == 0) ? @" and " : @" or ";
+                    da.SelectCommand.CommandText += @"ISNULL(Skill,'NA') Like ISNULL(ISNULL(@skill" + (i + 1) + ", Skill),'NA')";
                     da.SelectCommand.Parameters.Add("@skill" + (i + 1), SqlDbType.NVarChar).Value = Common.GetInstance().ValueIsNullOrEmpty("%" + expertise[i] + "%");
-                }
-                else
-                {
-                    da.SelectCommand.CommandText += @" or ISNULL(Skill,'NA') Like ISNULL(ISNULL(@skill" + (i + 1) + ", Skill),'NA')";
-                    da.SelectCommand.Parameters.Add("@skill" + (i + 1), SqlDbType.NVarChar).Value = Common.GetInstance().ValueIsNullOrEmpty("%" + expertise[i] + "%");
+
                 }
             }
 
             return da;
         }
+        #endregion
 
         /// <summary>
         /// 組合關鍵字的where語法
@@ -518,33 +574,23 @@ namespace TalentClassLibrary
         /// <returns></returns>
         private SqlDataAdapter CombinationWhereByKeyWord(string keyWords, SqlDataAdapter da)
         {
-            if (string.IsNullOrEmpty(keyWords))
+            if (!string.IsNullOrEmpty(keyWords))
             {
-                return da;
-            }
-
-            string[] keyWord = keyWords.Split(',');
-            for (int i = 0; i < keyWord.Length; i++)
-            {
-                if(string.IsNullOrEmpty(keyWord[i]))
+                string[] keyWord = keyWords.Split(',');
+                for (int i = 0; i < keyWord.Length; i++)
                 {
-                    continue;
-                }
+                    if (string.IsNullOrEmpty(keyWord[i]))
+                    {
+                        continue;
+                    }
 
-                if(i == 0)
-                {
-                    da.SelectCommand.CommandText += @" and (Name like @word" + (i + 1) + " or Code_Id like @word" + (i + 1) + " or Remarks like @word" + (i + 1);
+                    da.SelectCommand.CommandText += (i == 0) ? @" and (" : @" or ";
+                    da.SelectCommand.CommandText += @" Name like @word" + (i + 1) + " or Code_Id like @word" + (i + 1) + " or Remarks like @word" + (i + 1);
                     da.SelectCommand.Parameters.Add("@word" + (i + 1), SqlDbType.NVarChar).Value = "%" + keyWord[i] + "%";
                 }
-                else
-                {
-                    da.SelectCommand.CommandText += @" or Name like @word" + (i + 1) + " or Code_Id like @word" + (i + 1) + " or Remarks like @word" + (i + 1);
-                    da.SelectCommand.Parameters.Add("@word" + (i + 1), SqlDbType.NVarChar).Value = "%" + keyWord[i] + "%";
-                }
+
+                da.SelectCommand.CommandText += ")";
             }
-
-            da.SelectCommand.CommandText += ")";
-
             return da;
         }
 

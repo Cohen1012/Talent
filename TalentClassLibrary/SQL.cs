@@ -10,7 +10,7 @@ namespace TalentClassLibrary
     {
         private SqlConnection conn = null;
         private bool connOwner = false;
-        private string connString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
+        private string connString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString + @";Password=is_dev";
 
 
         private SqlTransaction transaction;

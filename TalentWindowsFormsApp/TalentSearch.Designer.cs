@@ -362,7 +362,8 @@
             this.CooperationCombo.Items.AddRange(new object[] {
             "不限",
             "全職",
-            "合約"});
+            "合約",
+            "皆可"});
             this.CooperationCombo.Location = new System.Drawing.Point(144, 115);
             this.CooperationCombo.Name = "CooperationCombo";
             this.CooperationCombo.Size = new System.Drawing.Size(121, 21);
@@ -469,6 +470,7 @@
             // KeyWordTxt
             // 
             this.KeyWordTxt.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.KeyWordTxt.ImeMode = System.Windows.Forms.ImeMode.On;
             this.KeyWordTxt.Location = new System.Drawing.Point(144, 10);
             this.KeyWordTxt.Margin = new System.Windows.Forms.Padding(2);
             this.KeyWordTxt.Name = "KeyWordTxt";
@@ -520,6 +522,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.TalentSearch_Load);
             this.Shown += new System.EventHandler(this.TalentSearch_Shown);
+            this.VisibleChanged += new System.EventHandler(this.TalentSearch_VisibleChanged);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

@@ -13,6 +13,10 @@ namespace TalentWindowsFormsApp
 {
     public partial class Main : Form
     {
+        TalentSearch talentSearch;
+        AuthorityManagement authorityManagement;
+        SignIn signIn;
+
         /// <summary>
         /// 帳號
         /// </summary>
@@ -25,6 +29,7 @@ namespace TalentWindowsFormsApp
         private void Main_Load(object sender, EventArgs e)
         {
             this.ShowSignIn();
+            this.Text = "Main" + Application.ProductVersion;
         }
 
         /// <summary>
@@ -32,7 +37,7 @@ namespace TalentWindowsFormsApp
         /// </summary>
         private void ShowSignIn()
         {
-            SignIn signIn = new SignIn();
+            signIn = new SignIn();
             this.Hide();
             this.DialogResult = signIn.ShowDialog();
             if (this.DialogResult == DialogResult.OK)
@@ -41,9 +46,9 @@ namespace TalentWindowsFormsApp
                 this.Text = signIn.Msg;
                 this.Show();
                 signIn.Close();
-                if (HaveOpened(this, "AuthorityManagement"))
+                if (!HaveOpened(this, "AuthorityManagement"))
                 {
-                    AuthorityManagement authorityManagement = new AuthorityManagement(signIn.Msg)
+                    authorityManagement = new AuthorityManagement(signIn.Msg)
                     {
                         MdiParent = this
                     };
@@ -79,11 +84,16 @@ namespace TalentWindowsFormsApp
         {
             if (HaveOpened(this, "AuthorityManagement"))
             {
-                AuthorityManagement authorityManagement = new AuthorityManagement(Account)
+                ShowForm("AuthorityManagement");
+            }
+            else
+            { 
+
+                authorityManagement = new AuthorityManagement(Account)
                 {
                     MdiParent = this
                 };
-                CloseFrom("AuthorityManagement");
+                //CloseFrom("AuthorityManagement");
                 authorityManagement.Show();
             }
         }
@@ -96,15 +106,21 @@ namespace TalentWindowsFormsApp
         /// <returns></returns>
         private bool HaveOpened(Main main, string childName)
         {
+            
             //查看視窗是否已經被打開
-            bool bReturn = true;
+            bool bReturn = false;
             for (int i = 0; i < main.MdiChildren.Length; i++)
             {
-                if (main.MdiChildren[i].Name == childName)
+                if (!main.MdiChildren[i].Name.Equals(childName))
                 {
-                    main.MdiChildren[i].BringToFront();
-                    bReturn = false;
-                    break;
+                    HideForm(main.MdiChildren[i].Name);
+                }
+                else
+                {
+                    //main.MdiChildren[i].BringToFront();
+                    ShowForm(main.MdiChildren[i].Name);
+                    bReturn = true;
+                    //break;
                 }
             }
             return bReturn;
@@ -119,11 +135,15 @@ namespace TalentWindowsFormsApp
         {
             if (HaveOpened(this, "TalentSearch"))
             {
-                TalentSearch talentSearch = new TalentSearch
+                CloseForm("TalentSearch");
+                ShowForm("TalentSearch");
+            }
+            else
+            {
+                talentSearch = new TalentSearch
                 {
                     MdiParent = this
                 };
-                CloseFrom("TalentSearch");
                 talentSearch.Show();
             }
         }
@@ -132,13 +152,35 @@ namespace TalentWindowsFormsApp
         /// 關閉正在執行以外的視窗
         /// </summary>
         /// <param name="formName"></param>
-        private void CloseFrom(string formName)
+        private void CloseForm(string formName)
         {
             for (int i = 0; i < this.MdiChildren.Length; i++)
             {
                 if (this.MdiChildren[i].Name != formName)
                 {
                     this.MdiChildren[i].Close();
+                }
+            }
+        }
+
+        private void HideForm(string formName)
+        {
+            for (int i = 0; i < this.MdiChildren.Length; i++)
+            {
+                if (this.MdiChildren[i].Name.Equals(formName))
+                {
+                    this.MdiChildren[i].Hide();
+                }
+            }
+        }
+
+        private void ShowForm(string formName)
+        {
+            for (int i = 0; i < this.MdiChildren.Length; i++)
+            {
+                if (this.MdiChildren[i].Name.Equals(formName))
+                {
+                    this.MdiChildren[i].Show();
                 }
             }
         }

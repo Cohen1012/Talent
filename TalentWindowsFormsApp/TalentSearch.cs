@@ -68,14 +68,14 @@ namespace TalentWindowsFormsApp
                 dataGridView1.DataSource = null;
                 return;
             }
-
+            
             dt = TalentClassLibrary.TalentSearch.GetInstance().CombinationGrid(dt);
             if (!string.IsNullOrEmpty(TalentClassLibrary.TalentSearch.GetInstance().ErrorMessage))
             {
                 MessageBox.Show(TalentClassLibrary.TalentSearch.GetInstance().ErrorMessage);
                 return;
             }
-
+            
             dataGridView1.Columns.Clear();
 
             dt.Columns.Add("UpdateTalent");
@@ -176,7 +176,7 @@ namespace TalentWindowsFormsApp
             };
             dataGridView1.Columns.Add(DelAccount);
             dataGridView1.Columns[0].Visible = false;
-
+            
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
                 do
@@ -190,6 +190,7 @@ namespace TalentWindowsFormsApp
 
                 } while (string.IsNullOrEmpty(dataGridView1.Rows[i].Cells[0].Value.ToString()));
             }
+            
         }
 
         private void CalendarBtn_Click(object sender, EventArgs e)
@@ -238,7 +239,7 @@ namespace TalentWindowsFormsApp
                     MdiParent = this.MdiParent
                 };
                 contactStatus.Show();
-                this.Close();
+                this.Hide();
                 return;
             }
 
@@ -321,7 +322,7 @@ namespace TalentWindowsFormsApp
                 MdiParent = this.MdiParent
             };
             contactStatus.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void ImportLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -372,6 +373,23 @@ namespace TalentWindowsFormsApp
         {
             DataTable dt = TalentClassLibrary.TalentSearch.GetInstance().SelectTop15();
             ShowData(ref dt);
+        }
+
+        private void TalentSearch_VisibleChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                do
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.LightSeaGreen;
+                    i++;
+                    if (i >= dataGridView1.RowCount)
+                    {
+                        break;
+                    }
+
+                } while (string.IsNullOrEmpty(dataGridView1.Rows[i].Cells[0].Value.ToString()));
+            }
         }
     }
 }
